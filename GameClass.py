@@ -1,7 +1,7 @@
 import pygame, math, random, sys, os
 from DefaultSudoku import DefaultSudoku
 from UIpygame import PyUI as pyui
-
+import pygame
 
 class GameClass:
     def __init__(self, ui: pyui.UI):
@@ -9,7 +9,7 @@ class GameClass:
         self.ui = ui
         # Button and window that opens from the right for a friends list
         ui.makebutton(1000, 10, text="Friends", command=lambda: ui.movemenu('Friends', 'left'))
-        ui.makewindowedmenu(900, 0, 300, 900, 'Friends')
+        ui.makewindowedmenu(900, 0, 300, 900, 'Friends', ID="FriendsList")
 
         # Adds the text at the top of each navigation menu that informs the user where they are at
         ui.maketext(100, 50, "Games")
@@ -28,7 +28,7 @@ class GameClass:
         # list of all the sudoku variant names in a dictionary, so it can initiate the object
         self.sudokuVariants = {"Sudoku": DefaultSudoku}
         for index, Variant in enumerate(self.sudokuVariants.keys()):
-            # Buttons on the Sudoku submenu to open varients
+            # Buttons on the Sudoku submenu to open variants
             ui.makebutton(100, 100 + 50 * index, text=Variant, menu="Sudoku",
                           command=lambda: openSudokuVariant(Variant))
 
@@ -37,18 +37,20 @@ class GameClass:
             # If a sudoku window already exists, deletes it
             if 'auto_generate_menu:SudokuGame' in ui.IDs:
                 ui.delete(ID='auto_generate_menu:SudokuGame')
+                ui.delete(ID="PausedMenu")
             # Opens the menu for Sudoku, places a back button on it
-            ui.makebutton(10, 10, text="Back", menu="SudokuGame", command=lambda: closeSudokuVariant())
+            ui.makebutton(10, 10, ID="ExitGame", text="Back", menu="SudokuGame", command=lambda: closeSudokuVariant())
             # Initialises the class that is responsible for that particular variant
             self.activeVariant = self.sudokuVariants.get(Variant)(self.ui)
             self.ui.movemenu('SudokuGame', 'left')
-            self.ui.deltatime = 60*(self.ui.timetracker)
+            self.ui.deltatime = 60 * self.ui.timetracker
 
         def closeSudokuVariant():
             ui.menuback()
             self.activeVariant.close()
             self.activeVariant = False
-
+            print(self.activeVariant)
+            #print(ui.printtree(), end="\n\n\n")
     def gameLoop(self):
         # Checks if there is an active variant running
         if self.activeVariant != False:

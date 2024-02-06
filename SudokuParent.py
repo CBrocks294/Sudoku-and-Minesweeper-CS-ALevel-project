@@ -1,6 +1,5 @@
 # Parent is an abstract class and should not be initialised
 import math
-
 import UIpygame.PyUI
 import pygame
 from UIpygame import PyUI as pyui
@@ -21,13 +20,19 @@ class SudokuParent:
         self.active = True
         self.paused = False
         self.timeElapsed = 0
-        pauseMenu = self.ui.makewindowedmenu(0, 0, 800, 600, menu="PausedMenu", behindmenu="SudokuGame", darken=230, anchor=("w/2", "h/2"),  center=True)
-        self.ui.maketext(0, 0, text="Paused", anchor=("w/2", "4*h/10"), center=True, textsize=100, menu="PausedMenu", backingcol=pauseMenu.col)
+        pauseMenu = self.ui.makewindowedmenu(0, 0, 800, 600, ID="PausedMenu", menu="PausedMenu", behindmenu="SudokuGame", darken=230, anchor=("w/2", "h/2"),  center=True)
+        self.ui.maketext(0, 0, text="Paused", width=300, anchor=("w/2", "4*h/10"), center=True, textsize=100, menu="PausedMenu", backingcol=pauseMenu.col)
         self.ui.maketext(0, 0, ID="PausedMenuTime", text="Paused", anchor=("w/2", "5*h/10"), center=True, textsize=50, menu="PausedMenu", backingcol=pauseMenu.col)
-        self.ui.makebutton(-100, 0, text= "Unpause", command=lambda: self.pause(), menu="PausedMenu", ID="UnpauseGame", center=True, anchor=("w/2", "3*h/4"))
-        self.ui.makebutton(100, 0, text="Unpause2", command=lambda: self.pause(), menu="PausedMenu", ID="PauseButton", center=True, anchor=("w/2", "3*h/4"))
+        self.ui.makebutton(-200, 0, width=300, text= "Save and Quit", command=lambda: self.saveandquit(), menu="PausedMenu", ID="SaveAndQuit", center=True, anchor=("w/2", "3*h/4"))
+        self.ui.makebutton(200, 0, width=300, text="Continue", command=lambda: self.pause(), menu="PausedMenu", ID="UnpauseButton", center=True, anchor=("w/2", "3*h/4"))
 
     # self.ui.maketextbox(0, 0, width=30, height=30, lines=1, backingcol=(255,0,0))
+
+    def saveandquit(self):
+        self.close()
+        self.ui.menuback()
+        self.ui.IDs["ExitGame"].command()
+
     def pause(self):
         currentTime = time.time()
         # Updates the total elapsed time by adding in the time since it was last updated
