@@ -26,8 +26,6 @@ while not done:
             done = True
     screen.fill(pyui.Style.wallpapercol)
     game.gameLoop()
-    if len(ui.queuedmenumove[1])!= 0:
-        print(ui.queuedmenumove)
     ui.rendergui(screen)
     pygame.display.flip()
     clock.tick(60)

@@ -38,6 +38,7 @@ class GameClass:
             if 'auto_generate_menu:SudokuGame' in ui.IDs:
                 ui.delete(ID='auto_generate_menu:SudokuGame')
                 ui.delete(ID="PausedMenu")
+                ui.delete(ID="SettingsMenu")
             # Opens the menu for Sudoku, places a back button on it
             ui.makebutton(10, 10, ID="ExitGame", text="Back", menu="SudokuGame", command=lambda: closeSudokuVariant())
             # Initialises the class that is responsible for that particular variant
