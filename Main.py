@@ -11,7 +11,8 @@ pygame.scrap.init()
 ui = pyui.UI()
 done = False
 clock = pygame.time.Clock()
-
+#ui.styleload_soundium()
+#ui.styleset(textsize=50)
 # End of code adapted from GitHub user Lazerwolfegod with Permission
 
 # Creates the class responsible for all the menus, friends lists and starting up the games

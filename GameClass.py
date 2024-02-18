@@ -5,6 +5,7 @@ import pygame
 
 class GameClass:
     def __init__(self, ui: pyui.UI):
+
         self.activeVariant = False
         self.ui = ui
         # Button and window that opens from the right for a friends list
@@ -34,6 +35,19 @@ class GameClass:
 
 
         def openSudokuVariant(Variant):
+            if 'auto_generate_menu:SudokuLevelSelector' in ui.IDs:
+                ui.delete(ID='auto_generate_menu:SudokuLevelSelector')
+            ui.maketext(100, 50, "Levels", menu="SudokuLevelSelector")
+            ui.makebutton(10, 10, ID="BackLevel", text="Back", menu="SudokuLevelSelector", command= self.ui.menuback)
+            # Will eventually fetch number of levels from a database.
+            for levelNum in range(2):
+                func = pyui.funcer(openLevel, variant=Variant, levelNum=levelNum)
+                ui.makebutton(100, 100 + 50 * levelNum, text="Level "+ str(levelNum+1), menu="SudokuLevelSelector",
+                              command=func.func)
+            self.ui.movemenu('SudokuLevelSelector', 'left')
+            self.ui.deltatime = 60 * self.ui.timetracker
+
+        def openLevel(variant, levelNum):
             # If a sudoku window already exists, deletes it
             if 'auto_generate_menu:SudokuGame' in ui.IDs:
                 ui.delete(ID='auto_generate_menu:SudokuGame')
@@ -42,7 +56,7 @@ class GameClass:
             # Opens the menu for Sudoku, places a back button on it
             ui.makebutton(10, 10, ID="ExitGame", text="Back", menu="SudokuGame", command=lambda: closeSudokuVariant())
             # Initialises the class that is responsible for that particular variant
-            self.activeVariant = self.sudokuVariants.get(Variant)(self.ui)
+            self.activeVariant = self.sudokuVariants.get(variant)(self.ui, levelNum)
             self.ui.movemenu('SudokuGame', 'left')
             self.ui.deltatime = 60 * self.ui.timetracker
 
