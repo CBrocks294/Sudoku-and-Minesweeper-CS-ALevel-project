@@ -1,8 +1,10 @@
 class SudokuTile():
-    def __init__(self, editable, TileID):
+    def __init__(self, editable, index):
         self.Number = ""
         self.Notes = []
         self.editable = editable
+        self.strIndex = index
+        self.intIndex = int(index)
 
     #Sets the number of the tile when typed
     def setNumber(self, Number):

@@ -54,7 +54,7 @@ class GameClass:
                 ui.delete(ID="PausedMenu")
                 ui.delete(ID="SettingsMenu")
             # Opens the menu for Sudoku, places a back button on it
-            ui.makebutton(10, 10, ID="ExitGame", text="Back", menu="SudokuGame", command=lambda: closeSudokuVariant())
+            ui.makebutton(10, 10, width=130,ID="ExitGame", text="Back", menu="SudokuGame", command=lambda: closeSudokuVariant())
             # Initialises the class that is responsible for that particular variant
             self.activeVariant = self.sudokuVariants.get(variant)(self.ui, levelNum)
             self.ui.movemenu('SudokuGame', 'left')
@@ -69,6 +69,6 @@ class GameClass:
     def gameLoop(self):
         # Checks if there is an active variant running
         if self.activeVariant != False:
-            self.activeVariant.updateTimer()
+            self.activeVariant.gameLogic()
 
 
